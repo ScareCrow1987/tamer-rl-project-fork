@@ -109,10 +109,10 @@ public class CartArm extends SampleableEnvBase implements
         theTaskSpecObject.setEpisodic();
         theTaskSpecObject.setDiscountFactor(1.0d);
         
-        theTaskSpecObject.addContinuousObservation((new DoubleRange(0, CartArmState.worldDims[0])));
-        theTaskSpecObject.addContinuousObservation((new DoubleRange(0, CartArmState.worldDims[1])));
+        theTaskSpecObject.addContinuousObservation((new DoubleRange(0, CartArmState.worldIntDims[0])));
+        theTaskSpecObject.addContinuousObservation((new DoubleRange(0, CartArmState.worldIntDims[1])));
         for (int i = 0; i < CartArmState.worldIntDims.length; i++) {
-        	theTaskSpecObject.addDiscreteObservation(new IntRange(0, CartArmState.worldDims[i] - 1));
+        	theTaskSpecObject.addDiscreteObservation(new IntRange(0, CartArmState.worldIntDims[i] - 1));
         }
         
         // TODO make separate action variables for each joint, forward/backward/stay, left/right
@@ -159,7 +159,7 @@ public class CartArm extends SampleableEnvBase implements
 
         int a = theAction.intArray[0];
 
-        int maxPossibleAct = (CartArmState.worldDims.length * 2) - 1;
+        int maxPossibleAct = (CartArmState.worldIntDims.length * 2) - 1;
         if (a > maxPossibleAct || a < 0) {
             System.err.println("Invalid action selected in Loop Maze: " + a);
             a = randomGenerator.nextInt(maxPossibleAct + 1);
@@ -295,7 +295,7 @@ public class CartArm extends SampleableEnvBase implements
      * @return
      */
     public double getMaxValueForQuerableVariable(int dimension) {
-    	return CartArmState.worldDims[dimension];
+    	return CartArmState.worldIntDims[dimension];
     }
 
     /**
@@ -323,7 +323,7 @@ public class CartArm extends SampleableEnvBase implements
      * @return
      */
     public int getNumVars() {
-        return CartArmState.worldDims.length;
+        return CartArmState.worldIntDims.length;
     }
 
     public String getVisualizerClassName() {
@@ -361,7 +361,7 @@ public class CartArm extends SampleableEnvBase implements
 		/*
 		 * Get reward
 		 */
-		rot.r = CartArmState.getReward(rot.o.intArray);
+		rot.r = CartArmState.getReward(rot.o.doubleArray,rot.o.intArray);
 		
 		
 		/*

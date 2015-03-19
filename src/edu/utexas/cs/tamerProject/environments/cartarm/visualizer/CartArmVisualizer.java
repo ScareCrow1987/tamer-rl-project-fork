@@ -208,7 +208,7 @@ public class CartArmVisualizer extends AbstractVisualizer implements ValueFuncti
     public int[] getLastAgentCoord() {
         Observation lastObsObject = getTheGlueState().getLastObservation();
         //This might be null at the first step of an episode
-		int[] agentCoord = new int[CartArmState.worldDims.length];
+		int[] agentCoord = new int[CartArmState.worldIntDims.length];
         if (lastObsObject != null) {
             agentCoord = lastObsObject.intArray;
         }

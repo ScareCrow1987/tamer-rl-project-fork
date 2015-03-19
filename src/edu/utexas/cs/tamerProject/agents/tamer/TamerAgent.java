@@ -87,6 +87,7 @@ public class TamerAgent extends GeneralAgent implements AgentInterface {
 
 		
 		//LogTrainer.trainOnLog("/Users/bradknox/rl-library/data/cartpole_tamer/recTraj-wbknox-tamerOnly-1295030420.488000.log", this);
+		System.out.println("is show: "+enableGUI);
 		if (enableGUI) { // TODO reduce 3 lines below to a single line, putting the 3 inside TrainerListener
 			//Schedule a job for event dispatch thread:
 	        //creating and showing this application's GUI.

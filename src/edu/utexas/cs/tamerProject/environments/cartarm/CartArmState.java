@@ -73,7 +73,7 @@ public class CartArmState {
     final public static double rewardAtGoal = 0.0;
 
 
-	private static final int NUM_SEGMENTS = worldDims.length - 2;
+	private static final int NUM_SEGMENTS = worldIntDims.length - 2;
     
     private int lastAction = 0;
     
@@ -83,7 +83,7 @@ public class CartArmState {
     public static int[] getOverridingDefInitPosition() { return CartArmState.overridingDefInitPosition; }
     
     public CartArmState(boolean randomStartStates, double transitionNoise, long randomSeed, boolean allowSecretPaths) {
-		System.out.println("static worldDims: " + Arrays.toString(CartArmState.worldDims));
+		System.out.println("static worldDims: " + Arrays.toString(CartArmState.worldIntDims));
     	
 
 		System.out.println("Random starts? " + CartArmState.randomStarts);
@@ -129,12 +129,12 @@ public class CartArmState {
 		
 		double lastJointAng = 0;
 		
-		for (int segI = 0; segI < CartArmState.worldDims.length; segI++) {
+		for (int segI = 0; segI < CartArmState.worldIntDims.length; segI++) {
 			double jointAng;
 			if (segI == 0)
-				jointAng = (((0.5 + relativeJointAngs[segI]) / (CartArmState.worldDims[segI])) * Math.PI) + Math.PI;
+				jointAng = (((0.5 + relativeJointAngs[segI]) / (CartArmState.worldIntDims[segI])) * Math.PI) + Math.PI;
 			else
-				jointAng = lastJointAng + ((relativeJointAngs[segI] / (CartArmState.worldDims[segI] - 1.0)) * 2 * Math.PI);
+				jointAng = lastJointAng + ((relativeJointAngs[segI] / (CartArmState.worldIntDims[segI] - 1.0)) * 2 * Math.PI);
 			Point2D newJointLoc = new Point2D.Double(lastJointLoc.getX() + (Math.cos(jointAng) * SEG_LENS[segI]), 
 													lastJointLoc.getY() + (Math.sin(jointAng) * SEG_LENS[segI]));
 
@@ -201,7 +201,7 @@ public class CartArmState {
     }
 
     public static Observation sampleEnvStart(boolean envAsking) {
-    	int[] agentLoc = new int[CartArmState.worldDims.length];
+    	int[] agentLoc = new int[CartArmState.worldIntDims.length];
     	if ((CartArmState.overridingDefInitPosition == null || !envAsking)
     			 && defaultInitPosition != null){
 			agentLoc = Arrays.copyOf(defaultInitPosition, defaultInitPosition.length);
@@ -221,10 +221,10 @@ public class CartArmState {
     }
     
     private static int[] getRandomStartState() {
-    	int[] agentLoc = new int[CartArmState.worldDims.length];
+    	int[] agentLoc = new int[CartArmState.worldIntDims.length];
 		do {
 			for (int i = 0; i < agentLoc.length; i++){
-				agentLoc[i] = CartArmState.randomGenerator.nextInt(worldDims[i]); 
+				agentLoc[i] = CartArmState.randomGenerator.nextInt(worldIntDims[i]); 
 			}
 		} while (inGoalRegion(agentLoc) || !CartArmState.isStateLegal(agentLoc));
 		return agentLoc;
@@ -254,7 +254,7 @@ public class CartArmState {
     }
     
     public static Observation sampleNextObs(Observation obs, Action act) {
-		int[] agentLoc = new int[CartArmState.worldDims.length];
+		int[] agentLoc = new int[CartArmState.worldIntDims.length];
 		System.out.println("prev obs: " + obs);
 		agentLoc = obs.intArray.clone();
 		int[] nextAgentLoc = agentLoc.clone();
@@ -288,7 +288,7 @@ public class CartArmState {
 		 * Are joint angles in specified range?
 		 */
 		for (int i = 0; i < jointAngs.length; i++) {
-			if (jointAngs[i] < 0 || jointAngs[i] >= CartArmState.worldDims[i])
+			if (jointAngs[i] < 0 || jointAngs[i] >= CartArmState.worldIntDims[i])
 				return false;
 		}	
 		
@@ -319,7 +319,7 @@ public class CartArmState {
     }
 
     Observation makeObservation() {
-        Observation currentObs = new Observation(CartArmState.worldDims.length, 0);
+        Observation currentObs = new Observation(CartArmState.worldIntDims.length, 0);
         int[] position = getPosition();
         currentObs.intArray = Arrays.copyOf(position, position.length);
         return currentObs;

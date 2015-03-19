@@ -98,7 +98,7 @@ public abstract class GeneralAgent implements AgentInterface{
 	//public static boolean isApplet = false;
 	public static boolean canWriteToFile = false; // set to true to allow logging to local file system
 	public static boolean canWriteViaPHP = false; // set to true to allow logging to a server via PHP (must be set up in TamerApplet by setting member variable dataCollectURL)
-	public boolean enableGUI = false; // true enables locally created GUIs
+	public boolean enableGUI = true; // true enables locally created GUIs
 	
 	protected boolean inTrainSess;
 	protected MutableDouble discountFactorForLearning = null; // can differ from actual MDP discount factor; may not be used by some agents

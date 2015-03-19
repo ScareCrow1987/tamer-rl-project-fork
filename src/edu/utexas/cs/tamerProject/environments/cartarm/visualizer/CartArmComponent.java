@@ -140,13 +140,13 @@ public class CartArmComponent implements SelfUpdatingVizComponent, Observer {
 		double lastJointAng = 0;
 //		System.out.println("agentPos: " + Arrays.toString(agentPos));
 //		System.out.println("CartArmState.worldDims: " + Arrays.toString(CartArmState.worldDims));
-		for (int segI = 2; segI < CartArmState.worldDims.length; segI++) {
+		for (int segI = 2; segI < CartArmState.worldIntDims.length; segI++) {
 			double jointAng;
 			//System.out.println("segI: " + segI);
 			if (segI == 0)
-				jointAng = (((0.5 + agentPos[segI]) / (CartArmState.worldDims[segI])) * Math.PI) + Math.PI;
+				jointAng = (((0.5 + agentPos[segI]) / (CartArmState.worldIntDims[segI])) * Math.PI) + Math.PI;
 			else
-				jointAng = lastJointAng + ((agentPos[segI] / (CartArmState.worldDims[segI] - 1.0)) * 2 * Math.PI);
+				jointAng = lastJointAng + ((agentPos[segI] / (CartArmState.worldIntDims[segI] - 1.0)) * 2 * Math.PI);
 			Point2D newJointLoc = new Point2D.Double(lastJointLoc.getX() + (Math.cos(jointAng) * CartArmState.SEG_LENS[segI]), 
 													lastJointLoc.getY() + (Math.sin(jointAng) * CartArmState.SEG_LENS[segI]));
 			
@@ -223,13 +223,13 @@ public class CartArmComponent implements SelfUpdatingVizComponent, Observer {
     
 
 	private double normX(double num) {
-		return (num / CartArmState.worldDims[0]);
+		return (num / CartArmState.worldIntDims[0]);
 	}
 	private double normY(double num) {
-		return (num / CartArmState.worldDims[1]);
+		return (num / CartArmState.worldIntDims[1]);
 	}
 	private double normZ(double num) {
-		return (num / CartArmState.worldDims[2]);
+		return (num / CartArmState.worldIntDims[2]);
 	}
 	
 	public static Shape resizeRect(final RectangularShape rectangularShape, final double xScale,
